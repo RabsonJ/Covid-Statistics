@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { Component } from 'react';
+import Chart from './components/Chart';
 import Container from './components/Container';
 import CountryInfo from './components/CountryInfo';
 import SearchBar from './components/SearchBar';
@@ -43,8 +44,11 @@ class App extends Component {
 				continent={this.state.cases.continent}
 			>
 				<SearchBar onFormSubmit={this.onFormSubmit} />
-				<CountryInfo cases={this.state.cases}/>
-				<StatsCards cases={this.state.cases}/>
+				<CountryInfo cases={this.state.cases} />
+				<StatsCards cases={this.state.cases} />
+				<div className="row">
+					<Chart casesData={this.state.cases} />
+				</div>
 			</Container>
 		);
 	}
