@@ -6,15 +6,12 @@ import SearchBar from './components/SearchBar';
 import StatsCards from './components/StatsCards';
 
 class App extends Component {
-	state = { cases: {} };
+	state = { cases: {}, country: '' };
 	componentDidMount = async () => {
 		try {
-			const { data } = await axios.get(
-				'https://corona.lmao.ninja/v3/covid-19/countries/morocco'
-			);
-
-			console.log(data);
-			this.setState({ cases: data });
+			const { data } = await axios.get('http://ip-api.com/json/');
+			this.setState({ country: data.country });
+			this.getByCountry(this.state.country)
 		} catch (err) {
 			console.log(err);
 		}
