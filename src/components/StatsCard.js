@@ -12,7 +12,7 @@ const StatsCard = ({className, stat, title, icon}) => {
                         <span>{title}</span>
 							</div>
 							<div className="align-self-center">
-								<i className={`icon-${icon} ${className} font-large-2 float-right`} />
+								<i className={`fas ${icon} ${className} font-large-2 float-right`} />
 							</div>
 						</div>
 					</div>

@@ -1,80 +1,54 @@
 import axios from 'axios';
 import React, { Component } from 'react';
-import CardsContainer from './components/CardsContainer';
-import StatsCard from './components/StatsCard';
+import Container from './components/Container';
+import CountryInfo from './components/CountryInfo';
+import SearchBar from './components/SearchBar';
+import StatsCards from './components/StatsCards';
 
 class App extends Component {
-   state = {cases: {}}
+	state = { cases: {} };
 	componentDidMount = async () => {
 		try {
-			const {data} = await axios.get(
-				'https://corona.lmao.ninja/v3/covid-19/countries/zambia'
+			const { data } = await axios.get(
+				'https://corona.lmao.ninja/v3/covid-19/countries/morocco'
 			);
 
-         console.log(data);
-         this.setState({cases: data})
+			console.log(data);
+			this.setState({ cases: data });
 		} catch (err) {
 			console.log(err);
 		}
 	};
 
+	getByCountry = async (term) => {
+		try {
+			const { data } = await axios.get(
+				`https://corona.lmao.ninja/v3/covid-19/countries/${term}`
+			);
+
+			console.log(data);
+			this.setState({ cases: data });
+		} catch (err) {
+			console.log(err);
+		}
+	}
+
+	onFormSubmit = (term) => {
+		this.getByCountry(term);
+	}
+
 	render() {
 		return (
-			<CardsContainer
+			<Container
 				title="Covid-19 Statistics"
 				subTitle="corona virus statistics"
 				country={this.state.cases.country}
 				continent={this.state.cases.continent}
 			>
-				<StatsCard
-					className="success"
-					stat={this.state.cases.active}
-					title="Active Cases"
-					icon="user"
-				/>
-				<StatsCard
-					className="success"
-					stat={this.state.cases.todayCases}
-					title="Cases Today"
-					icon="user"
-				/>
-				<StatsCard
-					className="success"
-					stat={this.state.cases.cases}
-					title="Total Cases"
-					icon="user"
-				/>
-				<StatsCard
-					className="success"
-					stat={this.state.cases.critical}
-					title="Critical Cases"
-					icon="user"
-				/>
-				<StatsCard
-					className="danger"
-					stat={this.state.cases.deaths}
-					title="Total Deaths"
-					icon="user"
-				/>
-				<StatsCard
-					className="success"
-					stat={this.state.cases.todayDeaths}
-					title="Deaths Today"
-					icon="user"
-				/>
-				<StatsCard
-					className="success"
-					stat={this.state.cases.recovered}
-					title="Total Recoveries"
-					icon="user"
-				/>
-				<StatsCard
-					className="success"
-					stat={this.state.cases.todayRecovered}
-					title="Recovered Today"
-					icon="user"
-				/>
-			</CardsContainer>
+				<SearchBar onFormSubmit={this.onFormSubmit} />
+				<CountryInfo cases={this.state.cases}/>
+				<StatsCards cases={this.state.cases}/>
+			</Container>
 		);
 	}
 }
