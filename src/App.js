@@ -10,9 +10,11 @@ class App extends Component {
 	state = { cases: {}, country: '' };
 	componentDidMount = async () => {
 		try {
-			const { data } = await axios.get('http://ip-api.com/json/');
-			this.setState({ country: data.country });
-			this.getByCountry(this.state.country)
+			const { data } = await axios.get(
+				`https://api.ipdata.co?api-key=${process.env.REACT_APP_IP_DATA_KEY}`
+			);
+			this.setState({ country: data.country_name });
+			this.getByCountry(this.state.country);
 		} catch (err) {
 			console.log(err);
 		}
@@ -23,17 +25,15 @@ class App extends Component {
 			const { data } = await axios.get(
 				`https://corona.lmao.ninja/v3/covid-19/countries/${term}`
 			);
-
-			console.log(data);
 			this.setState({ cases: data });
 		} catch (err) {
 			console.log(err);
 		}
-	}
+	};
 
 	onFormSubmit = (term) => {
 		this.getByCountry(term);
-	}
+	};
 
 	render() {
 		return (

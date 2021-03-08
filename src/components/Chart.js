@@ -13,13 +13,13 @@ const Chart = ({ casesData }) => {
 							data: [active, deaths, recovered, cases],
 							backgroundColor: [
 								'rgba(45, 206, 227, .5)',
-								'rgba(255, 117, 136, .5)',
+								'rgba(255, 10, 10, .5)',
 								'rgba(22, 211, 54, .5)',
 								'rgba(255, 168, 125, .5)',
 							],
 							borderColor: [
 								'rgba(45, 206, 227, 1)',
-								'rgba(255, 117, 136, 1)',
+								'rgba(255, 10, 10, 1)',
 								'rgba(22, 211, 54, 1)',
 								'rgba(255, 168, 125, 1)',
 							],
