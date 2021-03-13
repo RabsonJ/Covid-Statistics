@@ -5,9 +5,10 @@ import Container from './components/Container';
 import CountryInfo from './components/CountryInfo';
 import SearchBar from './components/SearchBar';
 import StatsCards from './components/StatsCards';
+import Loader from './components/Loader';
 
 class App extends Component {
-	state = { cases: {}, country: '' };
+	state = { cases: {}, country: '', isLoading: true };
 	componentDidMount = async () => {
 		try {
 			const { data } = await axios.get(
@@ -25,7 +26,7 @@ class App extends Component {
 			const { data } = await axios.get(
 				`https://corona.lmao.ninja/v3/covid-19/countries/${term}`
 			);
-			this.setState({ cases: data });
+			this.setState({ cases: data, isLoading: false });
 		} catch (err) {
 			console.log(err);
 		}
@@ -35,7 +36,11 @@ class App extends Component {
 		this.getByCountry(term);
 	};
 
-	render() {
+	renderedContent() {
+		if (this.state.isLoading) {
+			return <Loader text="Getting statistics..." />;
+		}
+
 		return (
 			<Container
 				title="Covid-19 Statistics"
@@ -51,6 +56,10 @@ class App extends Component {
 				</div>
 			</Container>
 		);
+	}
+
+	render() {
+		return <div>{this.renderedContent()}</div>;
 	}
 }
 
