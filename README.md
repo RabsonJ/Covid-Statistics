@@ -18,7 +18,7 @@ To get a local copy up and running follow these simple example steps.
 1. Get a free API Key at [https://dashboard.ipdata.co/sign-up.html](https://dashboard.ipdata.co/sign-up.html)
 2. Clone the repo
    ```sh
-   git clone https://github.com/RabsonJ/WeatherApp.git
+   git clone https://github.com/RabsonJ/Covid-Statistics.git
    ```
 3. Install NPM packages
    ```sh
