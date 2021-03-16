@@ -8,7 +8,7 @@ import StatsCards from './components/StatsCards';
 import Loader from './components/Loader';
 
 class App extends Component {
-	state = { cases: {}, country: '', isLoading: true };
+	state = { cases: {}, country: '', isLoading: true, error: '' };
 	componentDidMount = async () => {
 		try {
 			const { data } = await axios.get(
@@ -17,7 +17,10 @@ class App extends Component {
 			this.setState({ country: data.country_name });
 			this.getByCountry(this.state.country);
 		} catch (err) {
-			console.log(err);
+			this.setState({
+				error: 'Something went wrong. Please try again!',
+				isLoading: false,
+			});
 		}
 	};
 
@@ -28,11 +31,20 @@ class App extends Component {
 			);
 			this.setState({ cases: data, isLoading: false });
 		} catch (err) {
-			console.log(err);
+			const { data, status } = err.response;
+			if (status === 404) {
+				this.setState({ error: data.message, isLoading: false });
+			} else {
+				this.setState({
+					error: 'Something went wrong 😭',
+					isLoading: false,
+				});
+			}
 		}
 	};
 
 	onFormSubmit = (term) => {
+		this.state.error && this.setState({ error: '' });
 		this.getByCountry(term);
 	};
 
@@ -41,13 +53,26 @@ class App extends Component {
 			return <Loader text="Getting statistics..." />;
 		}
 
+		if (this.state.error) {
+			return (
+				<Container
+					title="Covid-19 Statistics"
+					subTitle="corona virus statistics"
+				>
+					<SearchBar onFormSubmit={this.onFormSubmit} />
+					<div
+						className="alert alert-danger mx-auto text-center"
+						role="alert"
+						style={{ maxWidth: '600px' }}
+					>
+						{this.state.error}
+					</div>
+				</Container>
+			);
+		}
+
 		return (
-			<Container
-				title="Covid-19 Statistics"
-				subTitle="corona virus statistics"
-				country={this.state.cases.country}
-				continent={this.state.cases.continent}
-			>
+			<Container title="Covid-19 Statistics" subTitle="corona virus statistics">
 				<SearchBar onFormSubmit={this.onFormSubmit} />
 				<CountryInfo cases={this.state.cases} />
 				<StatsCards cases={this.state.cases} />
