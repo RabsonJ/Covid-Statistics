@@ -16,6 +16,7 @@ const Container = ({ title, subTitle, children }) => {
 							>
 								www.worldometers.info
 							</a>
+							<span className="ml-1">(Updates every 10 minutes)</span>
 						</p>
 						<p>{subTitle}</p>
 					</div>
